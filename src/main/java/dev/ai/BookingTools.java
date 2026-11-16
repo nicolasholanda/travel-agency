@@ -18,12 +18,20 @@ public class BookingTools {
     }
 
     @Tool("""
-    Cancela uma reserva existente. Para confirmar o cancelamento, é necssário fornecer o número de identificação 
-    da reserva (bookingId) e o último nome do cliente (customerLastName).
+    Cancela uma reserva existente com base no seu ID (bookingId). O usuário deve estar autenticado.
     """)
-    public String cancelBooking(long bookingId, String customerLastName) {
-        return bookingService.cancelBooking(bookingId, customerLastName)
+    public String cancelBooking(long bookingId) {
+        return bookingService.cancelBooking(bookingId)
                 .map(booking -> "Reserva" + bookingId + " cancelada com sucesso. Status atual: " + booking.status())
-                .orElse("Não foi possível cancelar a reserva com id " + bookingId + ". Verifique se o id e o sobrenome do cliente estão corretos.");
+                .orElse("Não foi possível cancelar a reserva com id " + bookingId + ". Verifique se o id está correto e se você tem permissão.");
+    }
+
+    @Tool("Lista todos os pacotes disponíveis em uma categoria específica (ex: ADVENTURE, TREASURES).")
+    public String listPackagesByCategory(Category category) {
+        var packages = bookingService.findPackagesByCategory(category);
+        if (packages.isEmpty()) {
+            return "Nenhum pacote encontrado para a categoria: " + category;
+        }
+        return "Pacotes encontrados na categoria " + category + ": " + packages.stream().map(Booking::destination).toList();
     }
 }
