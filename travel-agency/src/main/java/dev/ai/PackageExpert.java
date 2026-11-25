@@ -5,7 +5,7 @@ import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
 import io.quarkiverse.langchain4j.RegisterAiService;
 
-@RegisterAiService(tools = BookingTools.class)
+@RegisterAiService
 public interface PackageExpert {
 
     @SystemMessage("""

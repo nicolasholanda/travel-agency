@@ -1,4 +1,4 @@
-package dev.ai;
+package dev.ia.travel;
 
 import jakarta.enterprise.context.ApplicationScoped;
 
@@ -37,11 +37,10 @@ public class BookingService {
                 .toList();
     }
 
-    public Optional<Booking> cancelBooking(Long id) {
-        String currentUser = SecurityContext.getCurrentUser();
-        if (bookings.containsKey(id)) {
-            Booking booking = bookings.get(id);
-            if (booking.customerName().equals(currentUser)) {
+    public Optional<Booking> cancelBooking(long bookingId, String name) {
+        if (bookings.containsKey(bookingId)) {
+            Booking booking = bookings.get(bookingId);
+            if (booking.customerName().equals(name)) {
                 Booking cancelledBooking = new Booking(
                         booking.id(),
                         booking.customerName(),
@@ -51,7 +50,7 @@ public class BookingService {
                         BookingStatus.CANCELLED,
                         booking.category()
                 );
-                bookings.replace(id, cancelledBooking);
+                bookings.replace(bookingId, cancelledBooking);
                 return Optional.of(cancelledBooking);
             }
         }

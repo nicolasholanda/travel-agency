@@ -1,4 +1,4 @@
-package dev.ai;
+package dev.ia.travel;
 
 public enum Category {
     ADVENTURE,

@@ -17,11 +17,6 @@ public class TravelAgentResource {
         if (username == null) {
             return "Usuário precisa estar logado para fazer perguntas.";
         }
-        try {
-            SecurityContext.setCurrentUser(username);
-            return expert.chat("session-123", question);
-        } finally {
-            SecurityContext.clear();
-        }
+        return expert.chat("session-123", question);
     }
 }
